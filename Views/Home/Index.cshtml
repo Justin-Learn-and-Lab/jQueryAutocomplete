@@ -1,0 +1,34 @@
+﻿@{
+	Layout = null;
+}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<div class="text-center p-5 m-5">
+	<label>公司名稱搜尋</label>
+	<input id="searchInput" />
+</div>
+<script>
+	$("#searchInput").autocomplete({
+		source: function (request, response) {
+			var value = $("#searchInput").val();
+			$.ajax({
+				url: '@Url.Action("GetLabel")',
+				data: {	keyWord:value},
+				success: function (data) {
+					response($.map(data, function (item) {
+						return { label: item.Name, value: item.Name };
+					}));
+				},
+				error: function (xhr, status, error) {
+					console.log(xhr);
+					console.log(status);
+					console.log(error);
+				}
+			});
+		}
+	});
+</script>
